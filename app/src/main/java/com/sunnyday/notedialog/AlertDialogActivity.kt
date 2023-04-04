@@ -25,12 +25,23 @@ class AlertDialogActivity : AppCompatActivity() {
                 override fun onClick(dialog: DialogInterface?, which: Int) {
                     Toast.makeText(applicationContext, "确定按钮", Toast.LENGTH_SHORT).show()
                 }
-            }).setNegativeButton("取消", object : DialogInterface.OnClickListener {
+            })
+            .setNegativeButton("取消", object : DialogInterface.OnClickListener {
                 override fun onClick(dialog: DialogInterface?, which: Int) {
                     Toast.makeText(applicationContext, "取消按钮", Toast.LENGTH_SHORT).show()
                 }
             })
+             //中立按钮，显示在dialog的最左面。
+            .setNeutralButton("中立", object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+                    Toast.makeText(applicationContext, "中立按钮", Toast.LENGTH_SHORT).show()
+                }
+            })
         val dialog = builder.create()
         dialog.show()
+    }
+
+    private fun showSingleChoiceAlertDialog(){
+
     }
 }
