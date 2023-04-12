@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">NoteDialog</string>
+    <string name="custom_area">custom area</string>
 </resources>

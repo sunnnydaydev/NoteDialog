@@ -1,7 +1,8 @@
 package com.sunnyday.notedialog
-
 import android.content.DialogInterface
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +15,8 @@ class AlertDialogActivity : AppCompatActivity() {
         // showNormalAlertDialog()
         // showSingleChoiceAlertDialog()
         // showMultipleChoiceAlertDialog()
-        showListAlertDialog()
+       // showListAlertDialog()
+        showCustomAlertDialog()
     }
 
     /**
@@ -100,16 +102,31 @@ class AlertDialogActivity : AppCompatActivity() {
      * ps：当单选、多选对话框的内容多了也可滚动。
      * */
     private fun showListAlertDialog() {
-        val subj = arrayOf("android", "linux", "java", "ios", "c","kotlin")
+        val subj = arrayOf("android", "linux", "java", "ios", "c", "kotlin")
         val builder = AlertDialog.Builder(this)
-        .setIcon(R.mipmap.ic_launcher)
-        .setTitle("列表对话框")
-        .setItems(subj) { dialog, which ->
-            Toast.makeText(this@AlertDialogActivity, "您选择了" + subj[which], Toast.LENGTH_SHORT).show()
-        }
+            .setIcon(R.mipmap.ic_launcher)
+            .setTitle("列表对话框")
+            .setItems(subj) { dialog, which ->
+                Toast.makeText(this@AlertDialogActivity, "您选择了" + subj[which], Toast.LENGTH_SHORT)
+                    .show()
+            }
         val dialog = builder.create()
         dialog.show()
     }
 
+    /**
+     * 基于AlertDialog进行自定义对话框
+     * 标题、title的UI格式已经被定制过了，我们可以定义其下方区域的ui
+     * */
+    private fun showCustomAlertDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setIcon(R.mipmap.ic_launcher)
+        builder.setTitle("Custom AlertDialog")
+        val inflater = LayoutInflater.from(this)
+        val v: View = inflater.inflate(R.layout.layout_custom_alert_dialog, null)
+        builder.setView(v)
+        val dialog = builder.create()
+        dialog.show()
+    }
 
 }

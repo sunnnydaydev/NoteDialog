@@ -116,11 +116,28 @@ private fun showNormalAlertDialog() {
 
 AlertDialog的UI我们不满意时也是可以稍加定制的。
 
+```kotlin
+    /**
+     * 基于AlertDialog进行自定义对话框
+     * 标题、title的UI格式已经被定制过了，我们可以定义其下方区域的ui
+     * */
+    private fun showCustomAlertDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setIcon(R.mipmap.ic_launcher)
+        builder.setTitle("Custom AlertDialog")
+        val inflater = LayoutInflater.from(this)
+        val v: View = inflater.inflate(R.layout.layout_custom_alert_dialog, null)
+        builder.setView(v)
+        val dialog = builder.create()
+        dialog.show()
+    }
+```
 
 ###### 其他对话框
 
 - ProgressDialog：弃用，使用ProgressBar代替。
-- 
+- DialogFragment：DialogFragment本质上是一个Fragment，也就具有Fragment所拥有的生命周期。在使用时，更容易通过生
+命周期回调来管理弹窗。对于复杂样式的弹窗，使用DialogFragment更加方便和高效。
 
 # 自定义Dialog
 
