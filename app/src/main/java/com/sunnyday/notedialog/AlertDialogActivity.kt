@@ -1,8 +1,15 @@
 package com.sunnyday.notedialog
+
+import android.app.AlertDialog.THEME_HOLO_LIGHT
+import android.app.DatePickerDialog
+import android.app.Dialog
+import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.DatePicker
+import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -15,8 +22,11 @@ class AlertDialogActivity : AppCompatActivity() {
         // showNormalAlertDialog()
         // showSingleChoiceAlertDialog()
         // showMultipleChoiceAlertDialog()
-       // showListAlertDialog()
-        showCustomAlertDialog()
+        // showListAlertDialog()
+        // showCustomAlertDialog()
+
+        //datePickerDialog()
+        timePickDialog()
     }
 
     /**
@@ -127,6 +137,44 @@ class AlertDialogActivity : AppCompatActivity() {
         builder.setView(v)
         val dialog = builder.create()
         dialog.show()
+    }
+
+    /**
+     * 日期选择对话框
+     * 注意：
+     * 1、后三个参数为默认选中的年、月、日。
+     * 2、注意月份范围为0-11（为了兼容Calendar.MONTH）
+     * */
+    private fun datePickerDialog() {
+        DatePickerDialog(this, THEME_HOLO_LIGHT, object : DatePickerDialog.OnDateSetListener {
+            override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+                Toast.makeText(applicationContext, "$year-$month-$dayOfMonth", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+        }, 2023, 3, 15).show()
+    }
+
+    /**
+     * context – the parent context
+     *
+     * themeResId – the resource ID of the theme to apply to this dialog
+     *
+     * listener – the listener to call when the time is set
+     *
+     * hourOfDay – the initial hour
+     *
+     * minute – the initial minute
+     *
+     * is24HourView – Whether this is a 24 hour view, or AM/PM.
+     *
+     * */
+    private fun timePickDialog() {
+        TimePickerDialog(this,THEME_HOLO_LIGHT,object : TimePickerDialog.OnTimeSetListener {
+            override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+               // todo
+            }
+        },22,56,true).show()
     }
 
 }
