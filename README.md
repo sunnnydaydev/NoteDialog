@@ -219,8 +219,132 @@ public TimePickerDialog(Context context,
         },22,56,true).show()
     }
 ```
+
+###### 3、ProgressDialog
+
+已经弃用，官方建议使用ProgressBar代替。
+
+###### 4、DialogFragment
+
+DialogFragment本质上是一个Fragment，也就具有Fragment所拥有的生命周期。在使用时，更容易通过生命周期回调来管理弹窗。对于复杂样式的弹窗，使用DialogFragment更加方便和高效。
+
 # 自定义Dialog
 
-# 参考
+系统提供的AlertDialog还是有一定的局限性的，开发中不一定会满足我们的需求，此时我们就需要自定义Dialog了。
+
+最近在开发购物车流程中看到UI设计了好多弹窗，这个些弹窗有相似点：
+
+- 底部弹窗
+- 顶部两个角是圆角
+- 各个弹窗各自内容自定义
+
+接下来就以这个简单的需求来实现下自定义Dialog
+
+###### 1、核心代码
+
+```kotlin
+/**
+ * Create by SunnyDay /04/23 18:06:24
+ */
+class BottomDialog @JvmOverloads constructor(
+    @UiContext mContext: Context,
+    dialogStyle: Int = R.style.BottomDialog,
+    @LayoutRes layoutId: Int
+) : Dialog(mContext, dialogStyle) {
+    init {
+        setContentView(layoutId)
+        makeDialogBottom()
+    }
+
+    private fun makeDialogBottom() {
+        window?.apply {
+            setGravity(Gravity.BOTTOM)
+            attributes.apply {
+                width = ViewGroup.LayoutParams.MATCH_PARENT
+                height = ViewGroup.LayoutParams.WRAP_CONTENT
+            }
+        }
+    }
+
+    fun <T : View> getViewById(resId: Int): T {
+        return findViewById<View>(resId) as T
+    }
+}
+
+```
+
+###### 2、BottomDialog#style
+
+稍微处理下dialog的样式
+
+```xml
+    <!--自定义dialog的样式-->
+    <style name="BottomDialog" parent="@style/AlertDialog.AppCompat">
+        <!--无边框-->
+        <item name="android:windowFrame">@null</item>
+        <!--浮现在activity之上-->
+        <item name="android:windowIsFloating">true</item>
+        <!--半透明-->
+        <item name="android:windowIsTranslucent">false</item>
+        <!--无标题-->
+        <item name="android:windowNoTitle">true</item>
+        <!--提示框背景-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 触摸dialog以外的地方可关闭dialog-->
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
+```
+
+###### 3、BottomDialog#bg
+
+白色背景&上面两个角是圆角
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/white" />
+    <corners
+        android:topLeftRadius="20dp"
+        android:topRightRadius="20dp" />
+</shape>
+
+```
+
+###### 4、食用
+
+```kotlin
+    private fun showCustomDialog() {
+        //注意这里直接使用第三个参数时需要写参数名
+        val bottomDialog = BottomDialog(this, layoutId = R.layout.dialog_permission)
+        bottomDialog.show()
+
+        bottomDialog.getViewById<View>(R.id.sure).setOnClickListener {
+            Toast.makeText(applicationContext,"got permission !",Toast.LENGTH_SHORT).show()
+            bottomDialog.dismiss()
+        }
+
+        bottomDialog.getViewById<View>(R.id.cancel).setOnClickListener {
+            Toast.makeText(applicationContext,"no permission !",Toast.LENGTH_SHORT).show()
+            bottomDialog.dismiss()
+        }
+    }
+
+```
+
+# 小结
+###### 1、本章能够了解到
+- AlertDialog 基本用法
+- Dialog的关系图
+- 如何自定义dialog
+- @JvmOverloads关键字作用
+- kotlin具名参数注意点
+###### 2、感悟
+
+有没有发现一个问题，dialog需要的context我们传递非activity的context（如service的或者Application的）会怎样？
+
+dialog深究起来也是一块知识点，以后再总结喽。完事，溜了~
+
 
 [官方文档](https://developer.android.com/develop/ui/views/components/dialogs)

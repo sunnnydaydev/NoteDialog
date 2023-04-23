@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">NoteDialog</string>
     <string name="custom_area">custom area</string>
+    <string name="request_permission">Request permission</string>
+    <string name="sure">Sure</string>
+    <string name="cancel">Cancel</string>
 </resources>

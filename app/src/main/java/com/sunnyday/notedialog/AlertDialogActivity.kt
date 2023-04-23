@@ -13,6 +13,7 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.dialog_permission.*
 
 
 class AlertDialogActivity : AppCompatActivity() {
@@ -26,7 +27,8 @@ class AlertDialogActivity : AppCompatActivity() {
         // showCustomAlertDialog()
 
         //datePickerDialog()
-        timePickDialog()
+        //timePickDialog()
+        showCustomDialog()
     }
 
     /**
@@ -170,11 +172,26 @@ class AlertDialogActivity : AppCompatActivity() {
      *
      * */
     private fun timePickDialog() {
-        TimePickerDialog(this,THEME_HOLO_LIGHT,object : TimePickerDialog.OnTimeSetListener {
+        TimePickerDialog(this, THEME_HOLO_LIGHT, object : TimePickerDialog.OnTimeSetListener {
             override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-               // todo
+                // todo
             }
-        },22,56,true).show()
+        }, 22, 56, true).show()
+    }
+
+    private fun showCustomDialog() {
+        val bottomDialog = BottomDialog(this, layoutId = R.layout.dialog_permission)
+        bottomDialog.show()
+
+        bottomDialog.getViewById<View>(R.id.sure).setOnClickListener {
+            Toast.makeText(applicationContext,"got permission !",Toast.LENGTH_SHORT).show()
+            bottomDialog.dismiss()
+        }
+
+        bottomDialog.getViewById<View>(R.id.cancel).setOnClickListener {
+            Toast.makeText(applicationContext,"no permission !",Toast.LENGTH_SHORT).show()
+            bottomDialog.dismiss()
+        }
     }
 
 }
